@@ -1,4 +1,4 @@
-exports=[]
+data=[]
 data[  0]="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 data[  1]="X                 X                                            X"
 data[  2]="X    DDDD DDDD    X                                            X"
@@ -44,3 +44,5 @@ data[ 51]="X       22        X                                            X"
 data[ 52]="X       22        X                                            X"
 data[ 53]="X                 X                                            X"
 data[ 54]="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+module.exports = data
