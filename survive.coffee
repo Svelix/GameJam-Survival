@@ -49,6 +49,7 @@ class Survive
       color: '#ff00ff'
       speed: 4
     @refTime = Date.now()
+    @socket = io.connect("/", {port: 8080, transports: ["websocket"]})
 
     @canvas.addEventListener 'mousemove', (evt) =>
         @mousePos = @getMousePos @canvas, evt
