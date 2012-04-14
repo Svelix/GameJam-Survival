@@ -40,7 +40,7 @@ class Survive
         top += obj.offsetTop
         left += obj.offsetLeft
         obj = obj.offsetParent
-    mouseX = evt.clientX - left + window.pageXOffset + @offset
+    mouseX = evt.clientX - left + window.pageXOffset
     mouseY = evt.clientY - top + window.pageYOffset
     @mousePos = {
       x: mouseX
@@ -155,7 +155,7 @@ class Survive
     @maxX = Math.min(@maxX, OFFICEWIDTH)
 
     @renderOffice()
-    dx = @mousePos.x - @localPlayer.x * 10
+    dx = @mousePos.x - @localPlayer.x * 10 + @offset
     dy = @mousePos.y - @localPlayer.y * 10
     @localPlayer.orientation = Math.atan2 dy, dx
     @renderPlayer(@localPlayer)
