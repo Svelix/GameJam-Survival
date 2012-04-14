@@ -29,20 +29,24 @@ class Player
     newY += delta * @speed if @keys.down
     newY -= delta * @speed if @keys.up
 
-    if !(office[Math.floor(@y)][Math.floor(newX + 1.1)] in WALKABLE)
-      util.log "A #{newX}"
+    if !(office[Math.floor(@y - 1)][Math.floor(newX + 1.1)] in WALKABLE) ||
+       !(office[Math.floor(@y + 0)][Math.floor(newX + 1.1)] in WALKABLE) ||
+       !(office[Math.floor(@y + 1)][Math.floor(newX + 1.1)] in WALKABLE)
       newX = @x
 
-    if !(office[Math.floor(@y)][Math.floor(newX - 1.1)] in WALKABLE)
-      util.log "B #{newX}"
+    if !(office[Math.floor(@y - 1)][Math.floor(newX - 1.1)] in WALKABLE) ||
+       !(office[Math.floor(@y + 0)][Math.floor(newX - 1.1)] in WALKABLE) ||
+       !(office[Math.floor(@y + 1)][Math.floor(newX - 1.1)] in WALKABLE)
       newX = @x
 
-    if !(office[Math.floor(newY + 1.1)][Math.floor(@x)] in WALKABLE)
-      util.log "C #{newY}"
+    if !(office[Math.floor(newY + 1.1)][Math.floor(newX - 1)] in WALKABLE) ||
+       !(office[Math.floor(newY + 1.1)][Math.floor(newX + 0)] in WALKABLE) ||
+       !(office[Math.floor(newY + 1.1)][Math.floor(newX + 1)] in WALKABLE)
       newY = @y
 
-    if !(office[Math.floor(newY - 1.1)][Math.floor(@x)] in WALKABLE)
-      util.log "D #{newY}"
+    if !(office[Math.floor(newY - 1.1)][Math.floor(newX - 1)] in WALKABLE) ||
+       !(office[Math.floor(newY - 1.1)][Math.floor(newX + 0)] in WALKABLE) ||
+       !(office[Math.floor(newY - 1.1)][Math.floor(newX + 1)] in WALKABLE)
       newY = @y
 
     [@x, @y] = [newX, newY] if newX != @x || newY != @y
