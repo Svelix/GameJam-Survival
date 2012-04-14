@@ -5,7 +5,6 @@ COLORS = {
   D: '#A63C00',
   C: '#222222'
   }
-WALKABLE = ' _1'
 
 requestAnimFrame = (() ->
   window.requestAnimationFrame       ||
