@@ -1,5 +1,5 @@
 util = require("util")
-office = require("./office")
+office = require("./office").office
 
 WALKABLE = ' _1'
 

@@ -20,7 +20,7 @@ X                 X
 XXXXXXXXXXXXX___XXX
 ###
 
-data=[
+office=[
   "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                       ",
   "X                                  X                 X                 X                 X                 X           X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
   "X                                  X    DDDD DDDD    X    DDDD DDDD    X    DDDD DDDD    X    DDDD DDDD    X           X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
@@ -34,12 +34,12 @@ data=[
   "X                      DDDD        X    DDDDDDDDD    X    DDDCCCDDD    X    DDDCCCDDD    X    DDDD DDDD    XKKK        X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
   "X                                  X                 X       111       X       111       X                 X           X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
   "X                                  X                 X       111       X       111       X                 XKKK        X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
+  "X                                  X                 X                 X                 X                 XKKK        X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
   "X                                  X                 X                 X             DDDDX                 XKKK        X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
-  "X                                  X                 X                 X           11CCDDX                 XKKK        X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
+  "X                                  X                 X                 X           11CCDDX                 X           X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
   "X                                  X                 X                 X           11CCDDX                 X           X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
   "X                                  X                 X                 X             DDDDX                 X           X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
-  "X                                  X                 X                 X                 X                 X           X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
-  "XXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX___XXXXXXXXXXXXXXX___XXXXXXXXXXXXXXXXXX___XXXXXXXXXXXXXXX___XXXXXXXXX___XXXXXXXXX___XXXXXXXXX___XXXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "XXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX___XXXXXXXXXXXXXXX___XXXXXXXXXXX___XXXXXXXXXXXXXXXXXXXXXX___XXXXXXXXX___XXXXXXXXX___XXXXXXXXX___XXXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXX",
   "X                                                                                                                                                                                 X",
   "X                                                                                                                                                                                 X",
   "X                                                                                                                                                                                 X",
@@ -53,12 +53,12 @@ data=[
   "X                                                                                                                                                                                 X",
   "X                                                                                                                                                                                 X",
   "X                                                                                                                                                                                 X",
-  "XXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX___XXXXXXXXXXXXXXX___XXXXXXXXXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                XXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-  "X                                  X                 X            DDDD X           X                                                           X              X                    ",
+  "XXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX___XXXXXXXXXXXX___XXXXXXXXXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                XXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
   "X                                  XDDDD             X            DDDD X           X                                                           X              X                    ",
+  "X                                  XDDCC11           X            DDDD X           X                                                           X              X                    ",
   "X                                  XDDCC11           X            DCCD X           X                                                           X              X                    ",
-  "X                                  XDDCC11           X            DCCD X           X                                                           X              X                    ",
-  "X                                  XDDDD             X             11  X           X                                                           X              X                    ",
+  "X                                  XDDDD             X            DCCD X           X                                                           X              X                    ",
+  "X                                  X                 X             11  X           X                                                           X              X                    ",
   "X                                  X                 X             11  X           X                                                           X              X                    ",
   "X       DDDDDDDDDDDDDDDDDDDDDD     X                 X                 X           X                                                           X              X                    ",
   "X       DDDDDDDDDDDDDDDDDDDDDD     X     DDDD DDDD   X     DDDD DDDD   X    DDDD   X                                                           X              X                    ",
@@ -74,4 +74,4 @@ data=[
   "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                    ",
 ]
 
-module.exports = data
+exports.office = office

@@ -45,7 +45,7 @@ class Survive
 
   @main: =>
     @createCanvas()
-    @office = require './office'
+    @office = require('./office').office
     @refTime = Date.now()
     @socket = io.connect("/", {port: 8080})
     @setupEventListener()
@@ -118,30 +118,7 @@ class Survive
   @updatePlayer: (delta)=>
     if @localPlayer.updateKeys @keys
       @socket.emit "keys changed", @localPlayer.keys
-
-    ###
-    if 38 of @keysDown || 87 of @keysDown
-      newY = @player.y - @player.speed * delta
-      if !(@office[Math.floor newY - 1.1][Math.floor @player.x] in WALKABLE)
-        newY = Math.ceil newY
-      @player.y = newY
-    if 40 of @keysDown || 83 of @keysDown
-      newY = @player.y + @player.speed * delta
-      if !(@office[Math.floor newY + 1.1][Math.floor @player.x] in WALKABLE)
-        newY = Math.floor newY
-      @player.y = newY
-    if 37 of @keysDown || 65 of @keysDown
-      newX = @player.x - @player.speed * delta
-      if !(@office[Math.floor @player.y][Math.floor newX - 1.1] in WALKABLE)
-        newX = Math.ceil newX
-      @player.x = newX
-    if 39 of @keysDown || 68 of @keysDown
-      newX = @player.x + @player.speed * delta
-      if !(@office[Math.floor @player.y][Math.floor newX + 1.1] in WALKABLE)
-        newX = Math.floor newX
-      @player.x = newX
-    ###
-
+    @localPlayer.update(delta)
 
   @gameLoop: =>
     now = Date.now()
