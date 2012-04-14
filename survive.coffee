@@ -1,3 +1,5 @@
+Player = require('./Player').Player
+
 COLORS = {
   X: '#000000',
   D: '#A63C00',
@@ -20,7 +22,12 @@ class Survive
     x: 0
     y: 0
   }
-  @keysDown: {}
+
+  @keys =
+    up: false
+    down: false
+    left: false
+    right: false
 
   @getMousePos: (canvas, evt) ->
     obj = canvas
@@ -39,32 +46,68 @@ class Survive
 
   @main: =>
     @createCanvas()
-    @context.font = "40pt Calibri"
-    @context.fillText('Survive!', 100, 100)
     @office = require './office'
-    @player =
-      x: 10
-      y: 10
-      orientation: 1
-      color: '#ff00ff'
-      speed: 4
     @refTime = Date.now()
-    @socket = io.connect("/", {port: 8080, transports: ["websocket"]})
+    @socket = io.connect("/", {port: 8080})
+    @setupEventListener()
+    @players = []
 
+  @startGame: (data) =>
+    @localPlayer = new Player data
+    @gameLoop()
+
+  @newPlayer: (data) =>
+    @players.push new Player data
+
+  @removePlayer: (data) =>
+    index = @players.indexOf @playerById data.id
+    if index >= 0
+      @players.splice(index, 1)
+    else
+      console.log "player not found: #{data.id}"
+
+  @setupEventListener: =>
     @canvas.addEventListener 'mousemove', (evt) =>
         @mousePos = @getMousePos @canvas, evt
     addEventListener "keydown", (evt) =>
-      @keysDown[evt.keyCode] = true
+      switch evt.keyCode
+        when 38, 87
+          @keys.up = true
+        when 40, 83
+          @keys.down = true
+        when 37, 65
+          @keys.left = true
+        when 39, 68
+          @keys.right = true
       evt.preventDefault()
       false
-
     addEventListener "keyup", (evt) =>
-      delete @keysDown[evt.keyCode]
+      switch evt.keyCode
+        when 38, 87
+          @keys.up = false
+        when 40, 83
+          @keys.down = false
+        when 37, 65
+          @keys.left = false
+        when 39, 68
+          @keys.right = false
       evt.preventDefault()
       false
+    @socket.on "start game", @startGame
+    @socket.on "new player", @newPlayer
+    @socket.on "remove player", @removePlayer
+    @socket.on "player moved", @playerMoved
 
-    @gameLoop()
+  @playerById = (id) ->
+    if @localPlayer.id == id
+      @localPlayer
+    else
+      (@players.filter (player) ->
+        player.id == id)[0]
 
+  @playerMoved: (data) =>
+    player = @playerById(data.id)
+    player.setData data
 
   @createCanvas: =>
     @canvas = document.getElementById 'canvas'
@@ -74,6 +117,10 @@ class Survive
 
 
   @updatePlayer: (delta)=>
+    if @localPlayer.updateKeys @keys
+      @socket.emit "keys changed", @localPlayer.keys
+
+    ###
     if 38 of @keysDown || 87 of @keysDown
       newY = @player.y - @player.speed * delta
       if !(@office[Math.floor newY - 1.1][Math.floor @player.x] in WALKABLE)
@@ -94,6 +141,7 @@ class Survive
       if !(@office[Math.floor @player.y][Math.floor newX + 1.1] in WALKABLE)
         newX = Math.floor newX
       @player.x = newX
+    ###
 
 
   @gameLoop: =>
@@ -113,10 +161,12 @@ class Survive
   @render: =>
     @context.clearRect(0,0,@canvas.width,@canvas.height)
     @renderOffice()
-    dx = @mousePos.x - @player.x * 10
-    dy = @mousePos.y - @player.y * 10
-    @player.orientation = Math.atan2 dy, dx
-    @renderPlayer(@player)
+    dx = @mousePos.x - @localPlayer.x * 10
+    dy = @mousePos.y - @localPlayer.y * 10
+    @localPlayer.orientation = Math.atan2 dy, dx
+    @renderPlayer(@localPlayer)
+    for player in @players
+      @renderPlayer(player)
 
 
   @renderOffice: =>
