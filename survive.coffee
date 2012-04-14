@@ -8,6 +8,8 @@ COLORS = {
   2: '#EEEEEE'
   }
 
+OFFICEWIDTH = 178
+
 requestAnimFrame = (() ->
   window.requestAnimationFrame       ||
   window.webkitRequestAnimationFrame ||
@@ -38,7 +40,7 @@ class Survive
         top += obj.offsetTop
         left += obj.offsetLeft
         obj = obj.offsetParent
-    mouseX = evt.clientX - left + window.pageXOffset
+    mouseX = evt.clientX - left + window.pageXOffset + @offset
     mouseY = evt.clientY - top + window.pageYOffset
     @mousePos = {
       x: mouseX
@@ -69,7 +71,7 @@ class Survive
       console.log "player not found: #{data.id}"
 
   @setupEventListener: =>
-    @canvas.addEventListener 'mousemove', (evt) =>
+    addEventListener 'mousemove', (evt) =>
         @mousePos = @getMousePos @canvas, evt
     addEventListener "keydown", (evt) =>
       switch evt.keyCode
@@ -114,9 +116,6 @@ class Survive
   @createCanvas: =>
     @canvas = document.getElementById 'canvas'
     @context = @canvas.getContext '2d'
-    @canvas.width = document.body.clientWidth
-    @canvas.height = 610
-
 
   @updatePlayer: (delta)=>
     if @localPlayer.updateKeys @keys
@@ -139,13 +138,32 @@ class Survive
 
   @render: =>
     @context.clearRect(0,0,@canvas.width,@canvas.height)
+    @context.save()
+
+    playerX = @localPlayer.x * 10
+    width = @canvas.width
+    middle = width / 2
+    @offset = 0
+    @minX = 0
+    @maxX = Math.ceil(width / 10)
+    if playerX > middle
+      @offset = playerX - middle
+      @offset = Math.floor(Math.min(@offset, (OFFICEWIDTH + 1) * 10 - 2 * middle))
+      @context.translate -@offset, 0
+    @minX += Math.floor(@offset/10)
+    @maxX += Math.ceil(@offset/10)
+    @maxX = Math.min(@maxX, OFFICEWIDTH)
+
     @renderOffice()
     dx = @mousePos.x - @localPlayer.x * 10
     dy = @mousePos.y - @localPlayer.y * 10
     @localPlayer.orientation = Math.atan2 dy, dx
     @renderPlayer(@localPlayer)
+
     for player in @players
       @renderPlayer(player)
+
+    @context.restore()
     @renderStatus()
 
   @renderStatus: =>
@@ -170,7 +188,7 @@ class Survive
     @context.restore()
 
   @renderOffice: =>
-    for x in [0..178]
+    for x in [@minX..@maxX]
       for y in [0..50]
         tile = @office[y][x]
         color = COLORS[tile]
