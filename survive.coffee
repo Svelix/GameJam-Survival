@@ -14,8 +14,8 @@ class Survive
     player = 
       x: 10
       y: 10
-      orientation: 30
-      color: '#0000ff'
+      orientation: 1
+      color: '#ff00ff'
 
 
     @renderPlayer(player)
@@ -36,92 +36,49 @@ class Survive
           @context.fillRect 10 * x, 10 * y, 10, 10
 
   renderPlayer: (player)->
+    ###
+   <ellipse id="svg_7" ry="5" rx="2" cy="0" cx="20" stroke-width="0" stroke="#000000" fill="#ffaaaa"/>
+   <ellipse ry="5" rx="2" id="svg_6" cy="0" cx="3" stroke-width="0" stroke="#000000" fill="#ffaaaa"/>
+   <ellipse ry="5" rx="12" id="svg_1" cy="3" cx="12" stroke-width="0" stroke="#000000" fill="#FF0000"/>
+   <circle id="svg_3" r="6" cy="3" cx="12" stroke-width="0" stroke="#000000" fill="#000000"/>
+
+    @context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false)
+    ###
     @context.save()
-    @context.moveTo(player.x,player.y)
+    @context.translate(player.x * 10, player.y * 10)
+    @context.rotate(player.orientation)
+
     @context.save()
-    @context.fillStyle = "#ffaaaa"
-    @context.transform(0.04499771,0,0,0.04459232,162.92379,29.408366)
+    @context.scale(0.4,1)
     @context.beginPath()
-    @context.moveTo(309.10667,172.51932)
-    @context.translate(275.771635,172.51932)
-    @context.scale(0.29729729512794123,1)
-    @context.arc(0,0,112.12693672727278,0,3.141592653589793,0)
-    @context.scale(3.363636388180566,1)
-    @context.translate(-275.771635,-172.51932)
-    @context.translate(275.771635,172.51932)
-    @context.scale(0.29729729512794123,1)
-    @context.arc(0,0,112.12693672727278,3.141592653589793,6.283185307179586,0)
-    @context.scale(3.363636388180566,1)
-    @context.translate(-275.771635,-172.51932)
-    @context.closePath()
-    @context.fill()
-    @context.stroke()
-    @context.restore()
-    @context.save()
+    @context.arc(14, -3, 7, 0, 2 * Math.PI, false)
     @context.fillStyle = "#ffaaaa"
-    @context.transform(0.04499771,0,0,0.04459232,178.84062,29.408366)
-    @context.beginPath()
-    @context.moveTo(309.10667,172.51932)
-    @context.translate(275.771635,172.51932)
-    @context.scale(0.29729729512794123,1)
-    @context.arc(0,0,112.12693672727278,0,3.141592653589793,0)
-    @context.scale(3.363636388180566,1)
-    @context.translate(-275.771635,-172.51932)
-    @context.translate(275.771635,172.51932)
-    @context.scale(0.29729729512794123,1)
-    @context.arc(0,0,112.12693672727278,3.141592653589793,6.283185307179586,0)
-    @context.scale(3.363636388180566,1)
-    @context.translate(-275.771635,-172.51932)
-    @context.closePath()
     @context.fill()
-    @context.stroke()
     @context.restore()
+
     @context.save()
+    @context.scale(0.4,1)
+    @context.beginPath()
+    @context.arc(-14, -3, 7, 0, 2 * Math.PI, false)
+    @context.fillStyle = "#ffaaaa"
+    @context.fill()
+    @context.restore()
+
+    @context.save()
+    @context.scale(1,0.5)
+    @context.beginPath()
+    @context.arc(0, 0, 10, 0, 2 * Math.PI, false)
     @context.fillStyle = player.color
-    @context.strokeStyle = "#000000"
-    @context.lineWidth = 1
-    @context.lineCap = "butt"
-    @context.lineJoin = "miter"
-    @context.transform(0.04082446,0,0,0.03733757,166.16161,31.985969)
-    @context.beginPath()
-    @context.moveTo(660.63976,234.13863)
-    @context.translate(417.192995,234.13863)
-    @context.scale(1,0.3236514669572928)
-    @context.arc(0,0,243.446765,0,3.141592653589793,0)
-    @context.scale(1,3.089743449647192)
-    @context.translate(-417.192995,-234.13863)
-    @context.translate(417.192995,234.13863)
-    @context.scale(1,0.3236514669572928)
-    @context.arc(0,0,243.446765,3.141592653589793,6.283185307179586,0)
-    @context.scale(1,3.089743449647192)
-    @context.translate(-417.192995,-234.13863)
-    @context.closePath()
     @context.fill()
-    @context.stroke()
     @context.restore()
+
     @context.save()
-    @context.fillStyle = "#000000"
-    @context.strokeStyle = "#000000"
-    @context.lineWidth = 1
-    @context.lineCap = "butt"
-    @context.lineJoin = "miter"
-    @context.transform(0.05978698,0,0,0.0597654,156.4658,24.59396)
     @context.beginPath()
-    @context.moveTo(505.07628,261.41275)
-    @context.translate(447.49759,261.4313368811172)
-    @context.scale(1,1)
-    @context.arc(0,0,57.578693,-0.0003228083246665498,3.141915461914787,0)
-    @context.scale(1,1)
-    @context.translate(-447.49759,-261.4313368811172)
-    @context.translate(447.49759,261.39416311888283)
-    @context.scale(1,1)
-    @context.arc(0,0,57.578693,3.1412698452651266,6.2835081155045795,0)
-    @context.scale(1,1)
-    @context.translate(-447.49759,-261.39416311888283)
-    @context.closePath()
+    @context.arc(0, 0, 5, 0, 2 * Math.PI, false)
+    @context.fillStyle = '#000000'
     @context.fill()
-    @context.stroke()
     @context.restore()
+
     @context.restore()
 
 
