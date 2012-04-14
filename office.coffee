@@ -52,6 +52,25 @@ exports.office=[
   "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                    ",
 ]
 
+STARTPOS = [
+  {y:8, x:11},
+  {y:13, x:43},
+  {y:15, x:62},
+  {y:15, x:76},
+  {y:15, x:98},
+  {y:25, x:169},
+  {y:35, x:46},
+  {y:35, x:59},
+  {y:36, x:76},
+  ]
+currentPos = 0
+
+exports.getStartPos = ->
+  currentPos += Math.floor(Math.random()*3+1)
+  currentPos %= 8
+  STARTPOS[currentPos]
+
+
 exports.label = {
   'coffee':
     x: 108

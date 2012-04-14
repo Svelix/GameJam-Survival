@@ -3,6 +3,7 @@ util = require("util")
 io = require("socket.io")
 Player = require("./Player").Player
 Player.server = true
+getStartPos = require('./office').getStartPos
 
 refTime = null
 socket = null
@@ -54,7 +55,10 @@ onSocketConnection = (client) ->
   util.log "New player has connected: " + client.id
 
   nextColor = (nextColor + 1) % 5
-  player = new Player x: 10, y:10, id: client.id, direction: 0, color: COLORS[nextColor]
+
+  pos = getStartPos()
+  util.log "#{pos.x}#{pos.y}"
+  player = new Player x: pos.x, y: pos.y, id: client.id, direction: 0, color: COLORS[nextColor]
 
 
   client.emit "start game", player.toData()
