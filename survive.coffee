@@ -5,6 +5,16 @@ COLORS = {
   }
 WALKABLE = ' _1'
 
+requestAnimFrame = (() ->
+  window.requestAnimationFrame       ||
+  window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame    ||
+  window.oRequestAnimationFrame      ||
+  window.msRequestAnimationFrame     ||
+  (callback, element) ->
+    window.setTimeout(callback, 1000 / 60)
+)()
+
 class Survive
   @mousePos: {
     x: 0
@@ -52,7 +62,7 @@ class Survive
       evt.preventDefault()
       false
 
-    setInterval(@gameLoop, 1)
+    @gameLoop()
 
 
   @createCanvas: =>
@@ -96,6 +106,7 @@ class Survive
     @updatePlayer(delta)
     @render()
     @refTime = now
+    requestAnimFrame(@gameLoop)
 
 
   @render: =>
