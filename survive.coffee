@@ -5,28 +5,60 @@ COLORS = {
   }
 
 class Survive
-  main: ->
+  @mousePos = {
+    x: 0
+    y: 0
+  }
+
+  @getMousePos: (canvas, evt) ->
+    obj = canvas
+    top = 0
+    left = 0
+    while obj && obj.tagName != 'BODY'
+        top += obj.offsetTop
+        left += obj.offsetLeft
+        obj = obj.offsetParent
+    mouseX = evt.clientX - left + window.pageXOffset
+    mouseY = evt.clientY - top + window.pageYOffset
+    @mousePos = {
+      x: mouseX
+      y: mouseY
+    }
+
+  @main: =>
     @createCanvas()
     @context.font = "40pt Calibri"
     @context.fillText('Survive!', 100, 100)
     @office = require './office'
-    @renderOffice()
-    player = 
+    @player =
       x: 10
       y: 10
       orientation: 1
       color: '#ff00ff'
 
+    @canvas.addEventListener 'mousemove', (evt) =>
+        @mousePos = @getMousePos @canvas, evt
 
-    @renderPlayer(player)
+    setInterval(@gameLoop, 25)
 
-  createCanvas: ->
+  @createCanvas: =>
     @canvas = document.getElementById 'canvas'
     @context = @canvas.getContext '2d'
     @canvas.width = document.body.clientWidth
     @canvas.height = 510
 
-  renderOffice: ->
+  @gameLoop: =>
+    @render()
+
+  @render: =>
+    @context.clearRect(0,0,@canvas.width,@canvas.height)
+    @renderOffice()
+    dx = @mousePos.x - @player.x * 10
+    dy = @mousePos.y - @player.y * 10
+    @player.orientation = Math.atan2 dy, dx
+    @renderPlayer(@player)
+
+  @renderOffice: =>
     for x in [0..178]
       for y in [0..50]
         tile = @office[y][x]
@@ -35,18 +67,12 @@ class Survive
           @context.fillStyle = color
           @context.fillRect 10 * x, 10 * y, 10, 10
 
-  renderPlayer: (player)->
-    ###
-   <ellipse id="svg_7" ry="5" rx="2" cy="0" cx="20" stroke-width="0" stroke="#000000" fill="#ffaaaa"/>
-   <ellipse ry="5" rx="2" id="svg_6" cy="0" cx="3" stroke-width="0" stroke="#000000" fill="#ffaaaa"/>
-   <ellipse ry="5" rx="12" id="svg_1" cy="3" cx="12" stroke-width="0" stroke="#000000" fill="#FF0000"/>
-   <circle id="svg_3" r="6" cy="3" cx="12" stroke-width="0" stroke="#000000" fill="#000000"/>
-
-    @context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false)
-    ###
+  @renderPlayer: (player)=>
     @context.save()
     @context.translate(player.x * 10, player.y * 10)
     @context.rotate(player.orientation)
+
+    @context.rotate(Math.PI/2)
 
     @context.save()
     @context.scale(0.4,1)
@@ -83,6 +109,5 @@ class Survive
 
 
 window.onload = () ->
-  survive = new Survive
-  survive.main()
+  Survive.main()
 
