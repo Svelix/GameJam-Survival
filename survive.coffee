@@ -3,12 +3,14 @@ COLORS = {
   D: '#A63C00',
   C: '#222222'
   }
+WALKABLE = ' _1'
 
 class Survive
-  @mousePos = {
+  @mousePos: {
     x: 0
     y: 0
   }
+  @keysDown: {}
 
   @getMousePos: (canvas, evt) ->
     obj = canvas
@@ -35,11 +37,23 @@ class Survive
       y: 10
       orientation: 1
       color: '#ff00ff'
+      speed: 4
+    @refTime = Date.now()
 
     @canvas.addEventListener 'mousemove', (evt) =>
         @mousePos = @getMousePos @canvas, evt
+    addEventListener "keydown", (evt) =>
+      @keysDown[evt.keyCode] = true
+      evt.preventDefault()
+      false
 
-    setInterval(@gameLoop, 25)
+    addEventListener "keyup", (evt) =>
+      delete @keysDown[evt.keyCode]
+      evt.preventDefault()
+      false
+
+    setInterval(@gameLoop, 1)
+
 
   @createCanvas: =>
     @canvas = document.getElementById 'canvas'
@@ -47,8 +61,42 @@ class Survive
     @canvas.width = document.body.clientWidth
     @canvas.height = 510
 
+
+  @updatePlayer: (delta)=>
+    if 38 of @keysDown || 87 of @keysDown
+      newY = @player.y - @player.speed * delta
+      if !(@office[Math.floor newY - 1.1][Math.floor @player.x] in WALKABLE)
+        newY = Math.ceil newY
+      @player.y = newY
+    if 40 of @keysDown || 83 of @keysDown
+      newY = @player.y + @player.speed * delta
+      if !(@office[Math.floor newY + 1.1][Math.floor @player.x] in WALKABLE)
+        newY = Math.floor newY
+      @player.y = newY
+    if 37 of @keysDown || 65 of @keysDown
+      newX = @player.x - @player.speed * delta
+      if !(@office[Math.floor @player.y][Math.floor newX - 1.1] in WALKABLE)
+        newX = Math.ceil newX
+      @player.x = newX
+    if 39 of @keysDown || 68 of @keysDown
+      newX = @player.x + @player.speed * delta
+      if !(@office[Math.floor @player.y][Math.floor newX + 1.1] in WALKABLE)
+        newX = Math.floor newX
+      @player.x = newX
+
+
   @gameLoop: =>
+    now = Date.now()
+    delta = (now - @refTime) / 1000
+
+    fps = document.getElementById 'fps'
+    fps.innerHTML = 1/delta
+
+    @context = @canvas.getContext '2d'
+    @updatePlayer(delta)
     @render()
+    @refTime = now
+
 
   @render: =>
     @context.clearRect(0,0,@canvas.width,@canvas.height)
@@ -58,6 +106,7 @@ class Survive
     @player.orientation = Math.atan2 dy, dx
     @renderPlayer(@player)
 
+
   @renderOffice: =>
     for x in [0..178]
       for y in [0..50]
@@ -66,6 +115,7 @@ class Survive
         if color
           @context.fillStyle = color
           @context.fillRect 10 * x, 10 * y, 10, 10
+
 
   @renderPlayer: (player)=>
     @context.save()
