@@ -70,6 +70,7 @@ onSocketConnection = (client) ->
 
   client.on "disconnect", onClientDisconnect
   client.on "keys changed", onKeysChanged
+  client.on "orientation changed", onOrientationChanged
 
 onClientDisconnect = ->
   util.log("Player disconnected: " + this.id)
@@ -78,6 +79,13 @@ onClientDisconnect = ->
   players.splice(index, 1) if index >= 0
   util.log(player.id for player in players)
   this.broadcast.emit("remove player", id: this.id)
+
+onOrientationChanged = (data) ->
+  player = playerById(this.id)
+  if player
+    player.setOrientation data
+  else
+    util.log "Player not found: #{this.id}"
 
 onKeysChanged = (data) ->
   util.log "Keys changed #{data}"

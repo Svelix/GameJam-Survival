@@ -157,7 +157,8 @@ class Survive
     @renderOffice()
     dx = @mousePos.x - @localPlayer.x * 10 + @offset
     dy = @mousePos.y - @localPlayer.y * 10
-    @localPlayer.orientation = Math.atan2 dy, dx
+    if @localPlayer.setOrientation Math.atan2 dy, dx
+      @socket.emit "orientation changed", @localPlayer.orientation
     @renderPlayer(@localPlayer)
 
     for player in @players

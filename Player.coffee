@@ -3,7 +3,7 @@ office = require("./office").office
 WALKABLE = require("./office").WALKABLE
 
 class Player
-  constructor: ({@x, @y, @id, @direction, @color}) ->
+  constructor: ({@x, @y, @id, @orientation, @color}) ->
     @keys =
       up: false
       down: false
@@ -16,8 +16,8 @@ class Player
   coffee: 0.5
   work: 0.5
   status: " "
-  toData: -> {@x, @y, @id, @direction, @color, @coffee, @status, @work}
-  setData: ({@x, @y, @direction, @coffee, @status, @work}) ->
+  toData: -> {@x, @y, @id, @orientation, @color, @coffee, @status, @work}
+  setData: ({@x, @y, @orientation, @coffee, @status, @work}) ->
   getX: -> @x
   getY: -> @y
   setX: (@x) ->
@@ -27,8 +27,16 @@ class Player
   updateKeys: ({up, down, left, right}) =>
     if up != @keys.up || down != @keys.down || left != @keys.left || right != @keys.right
       @keys = {up, down, left, right}
+  setOrientation: (orientation) =>
+    orientation = Math.round(orientation * 20) / 20
+    @orientationChanged = true
+    @orientation = orientation if @orientation != orientation
   update: (delta) ->
     changed = false
+
+    if @orientationChanged
+      changed = true
+      @orientationChanged = false
 
     [newX, newY] = [@x, @y]
 
