@@ -14,9 +14,10 @@ class Player
   lifetime: 0
   lastChange: 0
   coffee: 0.5
+  work: 0.5
   status: " "
-  toData: -> {@x, @y, @id, @direction, @color, @coffee, @status}
-  setData: ({@x, @y, @direction, @coffee, @status}) ->
+  toData: -> {@x, @y, @id, @direction, @color, @coffee, @status, @work}
+  setData: ({@x, @y, @direction, @coffee, @status, @work}) ->
   getX: -> @x
   getY: -> @y
   setX: (@x) ->
@@ -79,6 +80,17 @@ class Player
             changed = true
             @coffee -= 0.01
             @coffee = 0 if @coffee < 0
+
+        if @status == '1'
+          if @work < 1
+            changed = true
+            @work += 0.1 * @coffee
+            @work = 1 if @work > 1
+        else
+          if @work > 0
+            changed = true
+            @work -= 0.01
+            @work = 0 if @work < 0
 
     changed
 

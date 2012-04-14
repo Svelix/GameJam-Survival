@@ -149,19 +149,24 @@ class Survive
     @renderStatus()
 
   @renderStatus: =>
+    stats =
+      'coffee': '#A63C00'
+      'work'  : '#00FF00'
     @context.save()
     @context.translate 50, 520
     @context.fillStyle = '#444444'
-    @context.fillRect 0,0,204,16
+    @context.fillRect 0,0,204,2 + 14 * 2
 
-    @context.fillStyle = '#000000'
-    @context.fillRect 2,2,200,12
-    @context.fillStyle = '#A63C00'
-    @context.fillRect 2,2,200*@localPlayer.coffee,12
+    for stat, color of stats
+      @context.fillStyle = '#000000'
+      @context.fillRect 2,2,200,12
+      @context.fillStyle = color
+      @context.fillRect 2, 2, 200 * @localPlayer[stat], 12
 
-    @context.font = "8pt Calibri"
-    @context.fillStyle = '#FFFFFF'
-    @context.fillText 'coffee', 90, 11
+      @context.font = "8pt Calibri"
+      @context.fillStyle = '#FFFFFF'
+      @context.fillText stat, 90, 11
+      @context.translate 0, 14
     @context.restore()
 
   @renderOffice: =>
