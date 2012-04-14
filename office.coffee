@@ -1,26 +1,4 @@
-###
-XXXXXXXXXXXXXXXXXXX
-X                 X
-X    DDDD DDDD    X
-X  11CCDD DDCC11  X
-X  11CCDD DDCC11  X
-X    DDDD DDDD    X
-X                 X
-X    DDDD DDDD    X
-X  11CCDD DDCC11  X
-X  11CCDD DDCC11  X
-X    DDDD DDDD    X
-X      DDDDD      X
-X      DDDDD      X
-X      DCCDD      X
-X      DCCDD      X
-X       11        X
-X       11        X
-X                 X
-XXXXXXXXXXXXX___XXX
-###
-
-office=[
+exports.office=[
   "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                       ",
   "X                                  X                 X                 X                 X                 X           X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
   "X                                  X    DDDD DDDD    X    DDDD DDDD    X    DDDD DDDD    X    DDDD DDDD    X           X           XWWWWWWWWWWWXWWWWWWWWWWWX                       ",
@@ -54,10 +32,10 @@ office=[
   "X                                                                                                                                                                                 X",
   "X                                                                                                                                                                                 X",
   "XXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX___XXXXXXXXXXXX___XXXXXXXXXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                XXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-  "X                                  XDDDD             X            DDDD X           X                                                           X              X                    ",
-  "X                                  XDDCC11           X            DDDD X           X                                                           X              X                    ",
-  "X                                  XDDCC11           X            DCCD X           X                                                           X              X                    ",
-  "X                                  XDDDD             X            DCCD X           X                                                           X              X                    ",
+  "X                                  XDDDD             X            DDDD X           X                       DDDDDD                              X              X                    ",
+  "X                                  XDDCC11           X            DDDD X           X                       DDDDDD                              X              X                    ",
+  "X                                  XDDCC11           X            DCCD X           X                        2222                               X              X                    ",
+  "X                                  XDDDD             X            DCCD X           X                        2222                               X              X                    ",
   "X                                  X                 X             11  X           X                                                           X              X                    ",
   "X                                  X                 X             11  X           X                                                           X              X                    ",
   "X       DDDDDDDDDDDDDDDDDDDDDD     X                 X                 X           X                                                           X              X                    ",
@@ -74,4 +52,11 @@ office=[
   "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                    ",
 ]
 
-exports.office = office
+exports.label = {
+  'coffee':
+    x: 108
+    y: 34.5
+  }
+
+exports.WALKABLE = ' _12'
+

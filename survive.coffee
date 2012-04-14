@@ -1,9 +1,11 @@
 Player = require('./Player').Player
 
 COLORS = {
-  X: '#000000',
-  D: '#A63C00',
+  X: '#000000'
+  D: '#A63C00'
   C: '#222222'
+  1: '#EEEEEE'
+  2: '#EEEEEE'
   }
 
 requestAnimFrame = (() ->
@@ -46,6 +48,7 @@ class Survive
   @main: =>
     @createCanvas()
     @office = require('./office').office
+    @label = require('./office').label
     @refTime = Date.now()
     @socket = io.connect("/", {port: 8080})
     @setupEventListener()
@@ -112,7 +115,7 @@ class Survive
     @canvas = document.getElementById 'canvas'
     @context = @canvas.getContext '2d'
     @canvas.width = document.body.clientWidth
-    @canvas.height = 510
+    @canvas.height = 610
 
 
   @updatePlayer: (delta)=>
@@ -143,7 +146,23 @@ class Survive
     @renderPlayer(@localPlayer)
     for player in @players
       @renderPlayer(player)
+    @renderStatus()
 
+  @renderStatus: =>
+    @context.save()
+    @context.translate 50, 520
+    @context.fillStyle = '#444444'
+    @context.fillRect 0,0,204,16
+
+    @context.fillStyle = '#000000'
+    @context.fillRect 2,2,200,12
+    @context.fillStyle = '#A63C00'
+    @context.fillRect 2,2,200*@localPlayer.coffee,12
+
+    @context.font = "8pt Calibri"
+    @context.fillStyle = '#FFFFFF'
+    @context.fillText 'coffee', 90, 11
+    @context.restore()
 
   @renderOffice: =>
     for x in [0..178]
@@ -153,6 +172,9 @@ class Survive
         if color
           @context.fillStyle = color
           @context.fillRect 10 * x, 10 * y, 10, 10
+    for label, pos of @label
+      @context.font = "12pt Calibri"
+      @context.fillText label, pos.x * 10, pos.y * 10
 
 
   @renderPlayer: (player)=>

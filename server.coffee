@@ -2,6 +2,7 @@ express = require('express')
 util = require("util")
 io = require("socket.io")
 Player = require("./Player").Player
+Player.server = true
 
 refTime = null
 socket = null
