@@ -178,8 +178,14 @@ class Survive
 
     for player in @players
       @renderPlayer(player)
-    for shot in @shots
-      @renderShot(shot)
+    i = 0
+    while i < @shots.length
+      shot = @shots[i]
+      if shot.outdated()
+        @shots.splice(i, 1)
+      else
+        @renderShot(shot)
+        i++
 
     @context.restore()
     @renderStatus()

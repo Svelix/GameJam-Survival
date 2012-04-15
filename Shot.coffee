@@ -52,9 +52,13 @@ class Shot
       @x += delta * @speed * Math.cos @direction
       @y += delta * @speed * Math.sin @direction
 
-
-      if !(office[Math.floor(@y)][Math.floor(@x)] in WALKABLE)
-        @hit = true
+      passedCells = cellsOverlapped oldX, oldY, @x, @y
+      for cell in passedCells
+        if !(office[Math.floor(cell.y)][Math.floor(cell.x)] in WALKABLE)
+          @hit = true
+          @hitDate = Date.now()
+  outdated: ->
+    @hitDate && (@hitDate + 5000 < Date.now())
 
 exports.Shot = Shot
 exports.cellsOverlapped = cellsOverlapped
