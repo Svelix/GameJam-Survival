@@ -3,6 +3,7 @@ util = require("util")
 io = require("socket.io")
 Player = require("./Player").Player
 Player.server = true
+Shot = require("./Shot").Shot
 getStartPos = require('./office').getStartPos
 
 refTime = null
@@ -41,6 +42,8 @@ setupEventHandlers = ->
 
 players = []
 
+shots = []
+
 COLORS = [
   '#FF0000',
   '#00FF00',
@@ -65,11 +68,14 @@ onSocketConnection = (client) ->
   client.broadcast.emit "new player", player.toData()
   for otherPlayer in players
     client.emit "new player", otherPlayer.toData()
+  for shot in shots
+    client.emit "new shot", shot.toData()
 
   players.push player
 
   client.on "disconnect", onClientDisconnect
   client.on "keys changed", onKeysChanged
+  client.on "shoot", onShoot
   client.on "orientation changed", onOrientationChanged
 
 onClientDisconnect = ->
@@ -95,6 +101,21 @@ onKeysChanged = (data) ->
   else
     util.log "Player not found: #{this.id}"
 
+onShoot = (data) ->
+  util.log "Shoot #{data}"
+  player = playerById(this.id)
+  if player
+    x = player.x
+    y = player.y
+    dx = data.x - player.x
+    dy = data.y - player.y
+    direction = Math.atan2 dy, dx
+    shot = new Shot({x,y,direction})
+    shots.push shot
+    socket.sockets.emit("new shot", shot.toData())
+  else
+    util.log "Player not found: #{this.id}"
+
 
 playerById = (id) ->
   (players.filter (player) ->
@@ -108,6 +129,8 @@ gameLoop = ->
   for player in players
     if player.update(delta)
       socket.sockets.emit("player moved", player.toData())
+  for shot in shots
+    shot.update(delta)
 
 
 startServer()

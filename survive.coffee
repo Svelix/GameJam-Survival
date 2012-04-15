@@ -1,4 +1,5 @@
 Player = require('./Player').Player
+Shot = require('./Shot').Shot
 
 COLORS = {
   X: '#000000'
@@ -42,7 +43,7 @@ class Survive
         obj = obj.offsetParent
     mouseX = evt.clientX - left + window.pageXOffset
     mouseY = evt.clientY - top + window.pageYOffset
-    @mousePos = {
+    {
       x: mouseX
       y: mouseY
     }
@@ -55,6 +56,7 @@ class Survive
     @socket = io.connect("/", {port: 8080})
     @setupEventListener()
     @players = []
+    @shots = []
 
   @startGame: (data) =>
     @localPlayer = new Player data
@@ -62,6 +64,9 @@ class Survive
 
   @newPlayer: (data) =>
     @players.push new Player data
+
+  @newShot: (data) =>
+    @shots.push new Shot data
 
   @removePlayer: (data) =>
     index = @players.indexOf @playerById data.id
@@ -73,6 +78,12 @@ class Survive
   @setupEventListener: =>
     addEventListener 'mousemove', (evt) =>
         @mousePos = @getMousePos @canvas, evt
+    addEventListener 'click', (evt) =>
+      pos = @getMousePos @canvas, evt
+      pos.x += @offset
+      pos.x /= 10
+      pos.y /= 10
+      @socket.emit "shoot", pos
     addEventListener "keydown", (evt) =>
       switch evt.keyCode
         when 38, 87
@@ -99,6 +110,7 @@ class Survive
       false
     @socket.on "start game", @startGame
     @socket.on "new player", @newPlayer
+    @socket.on "new shot", @newShot
     @socket.on "remove player", @removePlayer
     @socket.on "player moved", @playerMoved
 
@@ -131,6 +143,8 @@ class Survive
 
     @context = @canvas.getContext '2d'
     @updatePlayer(delta)
+    for shot in @shots
+      shot.update(delta)
     @render()
     @refTime = now
     requestAnimFrame(@gameLoop)
@@ -163,6 +177,8 @@ class Survive
 
     for player in @players
       @renderPlayer(player)
+    for shot in @shots
+      @renderShot(shot)
 
     @context.restore()
     @renderStatus()
@@ -199,6 +215,22 @@ class Survive
     for label, pos of @label
       @context.font = "12pt Calibri"
       @context.fillText label, pos.x * 10, pos.y * 10
+
+
+  @renderShot: (shot)=>
+    @context.save()
+    @context.translate(shot.x * 10, shot.y * 10)
+    @context.rotate(shot.direction)
+    @context.beginPath()
+    @context.moveTo(-5,0)
+    @context.lineTo(5, 0)
+    @context.lineWidth = 3
+    @context.strokeStyle = "#EEEE00"
+    @context.lineCap = "round"
+    @context.stroke()
+    @context.restore()
+
+
 
 
   @renderPlayer: (player)=>
