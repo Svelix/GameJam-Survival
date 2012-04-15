@@ -129,9 +129,15 @@ gameLoop = ->
   for player in players
     if player.update(delta)
       socket.sockets.emit("player moved", player.toData())
-  for shot in shots
-    if shot.update(delta, players)
-      socket.sockets.emit("hit", shot.toData())
+  i = 0
+  while i < shots.length
+    shot = shots[i]
+    if shot.outdated() || shot.hitPlayerId
+      shots.splice(i, 1)
+    else
+      if shot.update(delta, players)
+        socket.sockets.emit("hit", shot.toData())
+      i++
 
 
 startServer()
