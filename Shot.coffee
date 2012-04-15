@@ -30,9 +30,7 @@ cellsOverlapped = (x1, y1, x2, y2) ->
   deltaty = 1 / Math.abs(y2 - y1)
 
   loop
-    result.push {x: i, y:j,
-      x1, y1, x2, y2, deltatx, deltaty, di, dj, i, iend, j, jend, maxx, maxy, minx, miny, result, tx, ty
-      }
+    result.push {x: i, y:j}
     if tx <= ty
       break if i == iend
       tx += deltatx
