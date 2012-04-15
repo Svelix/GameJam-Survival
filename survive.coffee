@@ -204,10 +204,11 @@ class Survive
     stats =
       'coffee': '#A63C00'
       'work'  : '#00FF00'
+      'health': '#AA0000'
     @context.save()
     @context.translate 50, 520
     @context.fillStyle = '#444444'
-    @context.fillRect 0,0,204,2 + 14 * 2
+    @context.fillRect 0,0,204,2 + 14 * 3
 
     for stat, color of stats
       @context.fillStyle = '#000000'

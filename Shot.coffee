@@ -97,6 +97,7 @@ class Shot
             @hit = true
             @hitDate = Date.now()
             @hitPlayerId = player.id
+            player.hit()
             return true
     false
 

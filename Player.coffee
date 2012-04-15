@@ -15,9 +15,10 @@ class Player
   lastChange: 0
   coffee: 0.5
   work: 0.5
+  health: 1
   status: " "
-  toData: -> {@x, @y, @id, @orientation, @color, @coffee, @status, @work}
-  setData: ({@x, @y, @orientation, @coffee, @status, @work}) ->
+  toData: -> {@x, @y, @id, @orientation, @color, @coffee, @status, @work, @health}
+  setData: ({@x, @y, @orientation, @coffee, @status, @work, @health}) ->
   getX: -> @x
   getY: -> @y
   setX: (@x) ->
@@ -29,14 +30,17 @@ class Player
       @keys = {up, down, left, right}
   setOrientation: (orientation) =>
     orientation = Math.round(orientation * 20) / 20
-    @orientationChanged = true
+    @needsUpdate = true
     @orientation = orientation if @orientation != orientation
+  hit: () =>
+    @health = Math.max(0, @health - 0.1)
+    @needsUpdate = true
   update: (delta) ->
     changed = false
 
-    if @orientationChanged
+    if @needsUpdate
       changed = true
-      @orientationChanged = false
+      @needsUpdate = false
 
     [newX, newY] = [@x, @y]
 
