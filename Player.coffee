@@ -3,7 +3,7 @@ office = require("./office").office
 WALKABLE = require("./office").WALKABLE
 
 class Player
-  constructor: ({@x, @y, @id, @orientation, @color}) ->
+  constructor: ({@x, @y, @id, @orientation, @color, @dead}) ->
     @keys =
       up: false
       down: false
