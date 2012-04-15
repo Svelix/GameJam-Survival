@@ -92,7 +92,7 @@ class Shot
           @hit = true
           @hitDate = Date.now()
       for player in players
-        unless player.id == @shooterId
+        unless player.id == @shooterId || player.dead
           if doesIntersectCirle {x:oldX, y:oldY}, {@x, @y}, player, 1
             @hit = true
             @hitDate = Date.now()

@@ -85,6 +85,7 @@ class Survive
     addEventListener 'mousemove', (evt) =>
         @mousePos = @getMousePos @canvas, evt
     addEventListener 'click', (evt) =>
+      return if @localPlayer.dead
       pos = @getMousePos @canvas, evt
       pos.x += @offset
       pos.x /= 10
@@ -222,6 +223,22 @@ class Survive
       @context.translate 0, 14
     @context.restore()
 
+    if @localPlayer.dead
+      @context.textAlign = "center"
+      @context.font = "80pt Calibri"
+      @context.fillStyle = '#FF0000'
+      @context.fillText 'Game Over', @canvas.width/2, 200
+      text = if @localPlayer.health <= 0
+        'Better watch your health next time!'
+      else if @localPlayer.work <= 0
+        'You are fired! Work harder next time!'
+      else
+        'Better luck next time!'
+      @context.font = "16pt Calibri"
+      @context.fillText text, @canvas.width/2, 270
+      @context.fillText 'Reload page to try again', @canvas.width/2, 290
+
+
   @renderOffice: =>
     for x in [@minX..@maxX]
       for y in [0..50]
@@ -254,40 +271,46 @@ class Survive
   @renderPlayer: (player)=>
     @context.save()
     @context.translate(player.x * 10, player.y * 10)
-    @context.rotate(player.orientation)
 
-    @context.rotate(Math.PI/2)
+    if player.dead
+      @context.fillStyle = '#AAAAAA'
+      @context.fillRect -2,-10,4,20
+      @context.fillRect -6,-6,12,4
+    else
+      @context.rotate(player.orientation)
 
-    @context.save()
-    @context.scale(0.4,1)
-    @context.beginPath()
-    @context.arc(14, -3, 7, 0, 2 * Math.PI, false)
-    @context.fillStyle = "#ffaaaa"
-    @context.fill()
-    @context.restore()
+      @context.rotate(Math.PI/2)
 
-    @context.save()
-    @context.scale(0.4,1)
-    @context.beginPath()
-    @context.arc(-14, -3, 7, 0, 2 * Math.PI, false)
-    @context.fillStyle = "#ffaaaa"
-    @context.fill()
-    @context.restore()
+      @context.save()
+      @context.scale(0.4,1)
+      @context.beginPath()
+      @context.arc(14, -3, 7, 0, 2 * Math.PI, false)
+      @context.fillStyle = "#ffaaaa"
+      @context.fill()
+      @context.restore()
 
-    @context.save()
-    @context.scale(1,0.5)
-    @context.beginPath()
-    @context.arc(0, 0, 10, 0, 2 * Math.PI, false)
-    @context.fillStyle = player.color
-    @context.fill()
-    @context.restore()
+      @context.save()
+      @context.scale(0.4,1)
+      @context.beginPath()
+      @context.arc(-14, -3, 7, 0, 2 * Math.PI, false)
+      @context.fillStyle = "#ffaaaa"
+      @context.fill()
+      @context.restore()
 
-    @context.save()
-    @context.beginPath()
-    @context.arc(0, 0, 5, 0, 2 * Math.PI, false)
-    @context.fillStyle = '#000000'
-    @context.fill()
-    @context.restore()
+      @context.save()
+      @context.scale(1,0.5)
+      @context.beginPath()
+      @context.arc(0, 0, 10, 0, 2 * Math.PI, false)
+      @context.fillStyle = player.color
+      @context.fill()
+      @context.restore()
+
+      @context.save()
+      @context.beginPath()
+      @context.arc(0, 0, 5, 0, 2 * Math.PI, false)
+      @context.fillStyle = '#000000'
+      @context.fill()
+      @context.restore()
 
     @context.restore()
 

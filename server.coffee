@@ -104,7 +104,7 @@ onKeysChanged = (data) ->
 onShoot = (data) ->
   util.log "Shoot #{data}"
   player = playerById(this.id)
-  if player
+  if player && !player.dead
     x = player.x
     y = player.y
     dx = data.x - player.x

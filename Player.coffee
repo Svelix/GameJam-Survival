@@ -16,9 +16,10 @@ class Player
   coffee: 0.5
   work: 0.5
   health: 1
+  dead: false
   status: " "
-  toData: -> {@x, @y, @id, @orientation, @color, @coffee, @status, @work, @health}
-  setData: ({@x, @y, @orientation, @coffee, @status, @work, @health}) ->
+  toData: -> {@x, @y, @id, @orientation, @color, @coffee, @status, @work, @health, @dead}
+  setData: ({@x, @y, @orientation, @coffee, @status, @work, @health, @dead}) ->
   getX: -> @x
   getY: -> @y
   setX: (@x) ->
@@ -26,9 +27,11 @@ class Player
   getSpeed: ->
     4 + @coffee * 8
   updateKeys: ({up, down, left, right}) =>
+    return if @dead
     if up != @keys.up || down != @keys.down || left != @keys.left || right != @keys.right
       @keys = {up, down, left, right}
   setOrientation: (orientation) =>
+    return if @dead
     orientation = Math.round(orientation * 20) / 20
     @needsUpdate = true
     @orientation = orientation if @orientation != orientation
@@ -36,6 +39,7 @@ class Player
     @health = Math.max(0, @health - 0.1)
     @needsUpdate = true
   update: (delta) ->
+    return if @dead
     changed = false
 
     if @needsUpdate
@@ -73,6 +77,7 @@ class Player
       [@x, @y] = [newX, newY]
       changed = true
 
+    ## Server only
     if Player.server
       newStatus = office[Math.floor @y][Math.floor @x]
       if newStatus != @status
@@ -103,6 +108,11 @@ class Player
             changed = true
             @work -= 0.01
             @work = 0 if @work < 0
+
+      if @work <= 0 || @health <= 0
+        @dead = true
+        changed = true
+    ## End Server only
 
     changed
 
