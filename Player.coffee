@@ -18,8 +18,8 @@ class Player
   health: 1
   dead: false
   status: " "
-  toData: -> {@x, @y, @id, @orientation, @color, @coffee, @status, @work, @health, @dead}
-  setData: ({@x, @y, @orientation, @coffee, @status, @work, @health, @dead}) ->
+  toData: -> {@x, @y, @id, @orientation, @color, @coffee, @status, @work, @health, @dead, @lifetime}
+  setData: ({@x, @y, @orientation, @coffee, @status, @work, @health, @dead, @lifetime}) ->
   getX: -> @x
   getY: -> @y
   setX: (@x) ->

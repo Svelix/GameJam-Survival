@@ -223,7 +223,14 @@ class Survive
       @context.translate 0, 14
     @context.restore()
 
+    @context.save()
+    @context.font = "16pt Calibri"
+    @context.fillStyle = '#000000'
+    @context.fillText "You survived #{Math.round @localPlayer.lifetime} seconds", 260, 540
+    @context.restore()
+
     if @localPlayer.dead
+      @context.save()
       @context.textAlign = "center"
       @context.font = "80pt Calibri"
       @context.fillStyle = '#FF0000'
@@ -237,6 +244,7 @@ class Survive
       @context.font = "16pt Calibri"
       @context.fillText text, @canvas.width/2, 270
       @context.fillText 'Reload page to try again', @canvas.width/2, 290
+      @context.restore()
 
 
   @renderOffice: =>
