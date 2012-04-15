@@ -1,5 +1,6 @@
 Player = require('./Player').Player
 Shot = require('./Shot').Shot
+Meeting = require("./Meeting").Meeting
 cellsOverlapped = require('./Shot').cellsOverlapped
 doesIntersectCirle = require('./Shot').doesIntersectCirle
 
@@ -9,6 +10,7 @@ COLORS = {
   C: '#222222'
   1: '#EEEEEE'
   2: '#EEEEEE'
+  W: '#AAAAFF'
   }
 
 OFFICEWIDTH = 178
@@ -85,7 +87,7 @@ class Survive
     addEventListener 'mousemove', (evt) =>
         @mousePos = @getMousePos @canvas, evt
     addEventListener 'click', (evt) =>
-      return if @localPlayer.dead
+      return if @localPlayer.dead || @meeting
       pos = @getMousePos @canvas, evt
       pos.x += @offset
       pos.x /= 10
@@ -121,6 +123,14 @@ class Survive
     @socket.on "hit", @hit
     @socket.on "remove player", @removePlayer
     @socket.on "player moved", @playerMoved
+    @socket.on "new meeting", @newMeeting
+    @socket.on "meeting over", @meetingOver
+
+  @newMeeting: (data) =>
+    @meeting = new Meeting(data)
+
+  @meetingOver: =>
+    @meeting = null
 
   @playerById = (id) ->
     if @localPlayer.id == id
@@ -160,6 +170,7 @@ class Survive
     @render()
     @refTime = now
     requestAnimFrame(@gameLoop)
+    @meeting?.update(delta)
 
 
   @render: =>
@@ -199,7 +210,22 @@ class Survive
         i++
 
     @context.restore()
+
+    @renderMeeting() if @meeting
+
     @renderStatus()
+
+  @renderMeeting: =>
+    @context.save()
+    @context.textAlign = "center"
+    @context.font = "20pt Calibri"
+    if @localPlayer.status == 'M'
+      @context.fillStyle = '#00FF00'
+    else
+      @context.fillStyle = '#FF0000'
+    @context.fillText "Meeting in #{Math.round(@meeting.timeLeft)} seconds!", @canvas.width/2, 200
+    @context.fillText "<---", @canvas.width/2, 250
+    @context.restore()
 
   @renderStatus: =>
     stats =
@@ -239,6 +265,8 @@ class Survive
         'Better watch your health next time!'
       else if @localPlayer.work <= 0
         'You are fired! Work harder next time!'
+      else if @localPlayer.meetingMissed
+        "You are fired! Don't miss important meetings next time!"
       else
         'Better luck next time!'
       @context.font = "16pt Calibri"
@@ -251,7 +279,13 @@ class Survive
     for x in [@minX..@maxX]
       for y in [0..50]
         tile = @office[y][x]
-        color = COLORS[tile]
+        if (tile == 'M') && @meeting
+          if @localPlayer.status == 'M'
+            color = '#00FF00'
+          else
+            color = '#FF0000'
+        else
+          color = COLORS[tile]
         if color
           @context.fillStyle = color
           @context.fillRect 10 * x, 10 * y, 10, 10

@@ -4,6 +4,7 @@ io = require("socket.io")
 Player = require("./Player").Player
 Player.server = true
 Shot = require("./Shot").Shot
+Meeting = require("./Meeting").Meeting
 getStartPos = require('./office').getStartPos
 
 refTime = null
@@ -68,6 +69,7 @@ onSocketConnection = (client) ->
   client.broadcast.emit "new player", player.toData()
   for otherPlayer in players
     client.emit "new player", otherPlayer.toData()
+    client.emit("new meeting", meeting.toData()) if meeting
   for shot in shots
     client.emit "new shot", shot.toData()
 
@@ -104,7 +106,7 @@ onKeysChanged = (data) ->
 onShoot = (data) ->
   util.log "Shoot #{data}"
   player = playerById(this.id)
-  if player && !player.dead
+  if player && !player.dead && !meeting
     x = player.x
     y = player.y
     dx = data.x - player.x
@@ -120,6 +122,9 @@ onShoot = (data) ->
 playerById = (id) ->
   (players.filter (player) ->
     player.id == id)[0]
+
+nextMeeting = Date.now() + 15000
+meeting = null
 
 gameLoop = ->
   now = Date.now()
@@ -138,6 +143,16 @@ gameLoop = ->
       if shot.update(delta, players)
         socket.sockets.emit("hit", shot.toData())
       i++
+  meeting?.update(delta, players)
+  if meeting?.finished
+    socket.sockets.emit("meeting over", {})
+    meeting = null
+
+  if nextMeeting < now
+    meeting = new Meeting({timeLeft: 60})
+    nextMeeting = now + (120 + Math.random() * 60) * 1000
+    socket.sockets.emit("new meeting", meeting.toData())
+
 
 
 startServer()

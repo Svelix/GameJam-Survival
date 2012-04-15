@@ -32,23 +32,23 @@ exports.office=[
   "X                                                                                                                                                                                 X",
   "X                                                                                                                                                                                 X",
   "XXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX___XXXXXXXXXXXX___XXXXXXXXXXXXXXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                XXX___XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-  "X                                  XDDDD             X            DDDD X           X                       DDDDDD                              X              X                    ",
-  "X                                  XDDCC11           X            DDDD X           X                       DDDDDD                              X              X                    ",
-  "X                                  XDDCC11           X            DCCD X           X                        2222                               X              X                    ",
-  "X                                  XDDDD             X            DCCD X           X                        2222                               X              X                    ",
-  "X                                  X                 X             11  X           X                                                           X              X                    ",
-  "X                                  X                 X             11  X           X                                                           X              X                    ",
-  "X       DDDDDDDDDDDDDDDDDDDDDD     X                 X                 X           X                                                           X              X                    ",
-  "X       DDDDDDDDDDDDDDDDDDDDDD     X     DDDD DDDD   X     DDDD DDDD   X    DDDD   X                                                           X              X                    ",
-  "X       DDDDDDDDDDDDDDDDDDDDDD     X   11CCDD DDCC11 X   11CCDD DDCC11 X    DDDD   X                                                           XXX___XXXXXXXXXX                    ",
-  "X       DDDDDDDDDDDDDDDDDDDDDD     X   11CCDD DDCC11 X   11CCDD DDCC11 X    DDDD   X                                                           X              X                    ",
-  "X       DDDDDDDDDDDDDDDDDDDDDD     X     DDDD DDDD   X     DDDD DDDD   X    DDDD   X                                                           X              X                    ",
-  "X       DDDDDDDDDDDDDDDDDDDDDD     X                 X                 X    DDDD   X                                                           X              X                    ",
-  "X                                  X     DDDD DDDD   X     DDDD DDDD   X    DDDD   X                                                           X              X                    ",
-  "X                                  X   11CCDD DDCC11 X   11CCDD DDCC11 X    DDCC11 X                                                           X              X                    ",
-  "X                                  X   11CCDD DDCC11 X   11CCDD DDCC11 X    DDCC11 X                                                           X              X                    ",
-  "X                                  X     DDDD DDDD   X     DDDD DDDD   X    DDDD   X                                                           X              X                    ",
-  "X                                  X                 X                 X           X                                                           X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMXDDDD             X            DDDD X           X                       DDDDDD                              X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMXDDCC11           X            DDDD X           X                       DDDDDD                              X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMXDDCC11           X            DCCD X           X                        2222                               X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMXDDDD             X            DCCD X           X                        2222                               X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMX                 X             11  X           X                                                           X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMX                 X             11  X           X                                                           X              X                    ",
+  "XMMMMMMMDDDDDDDDDDDDDDDDDDDDDDMMMMMX                 X                 X           X                                                           X              X                    ",
+  "XMMMMMMMDDDDDDDDDDDDDDDDDDDDDDMMMMMX     DDDD DDDD   X     DDDD DDDD   X    DDDD   X                                                           X              X                    ",
+  "XMMMMMMMDDDDDDDDDDDDDDDDDDDDDDMMMMMX   11CCDD DDCC11 X   11CCDD DDCC11 X    DDDD   X                                                           XXX___XXXXXXXXXX                    ",
+  "XMMMMMMMDDDDDDDDDDDDDDDDDDDDDDMMMMMX   11CCDD DDCC11 X   11CCDD DDCC11 X    DDDD   X                                                           X              X                    ",
+  "XMMMMMMMDDDDDDDDDDDDDDDDDDDDDDMMMMMX     DDDD DDDD   X     DDDD DDDD   X    DDDD   X                                                           X              X                    ",
+  "XMMMMMMMDDDDDDDDDDDDDDDDDDDDDDMMMMMX                 X                 X    DDDD   X                                                           X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMX     DDDD DDDD   X     DDDD DDDD   X    DDDD   X                                                           X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMX   11CCDD DDCC11 X   11CCDD DDCC11 X    DDCC11 X                                                           X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMX   11CCDD DDCC11 X   11CCDD DDCC11 X    DDCC11 X                                                           X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMX     DDDD DDDD   X     DDDD DDDD   X    DDDD   X                                                           X              X                    ",
+  "XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMX                 X                 X           X                                                           X              X                    ",
   "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                    ",
 ]
 
@@ -77,5 +77,5 @@ exports.label = {
     y: 34.5
   }
 
-exports.WALKABLE = ' _12'
+exports.WALKABLE = ' _12WM'
 

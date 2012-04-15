@@ -17,9 +17,10 @@ class Player
   work: 0.5
   health: 1
   dead: false
+  meetingMissed: false
   status: " "
-  toData: -> {@x, @y, @id, @orientation, @color, @coffee, @status, @work, @health, @dead, @lifetime}
-  setData: ({@x, @y, @orientation, @coffee, @status, @work, @health, @dead, @lifetime}) ->
+  toData: -> {@x, @y, @id, @orientation, @color, @coffee, @status, @work, @health, @dead, @lifetime, @meetingMissed}
+  setData: ({@x, @y, @orientation, @coffee, @status, @work, @health, @dead, @lifetime, @meetingMissed}) ->
   getX: -> @x
   getY: -> @y
   setX: (@x) ->
@@ -38,6 +39,10 @@ class Player
   hit: () =>
     @health = Math.max(0, @health - 0.1)
     @needsUpdate = true
+  meeting: () =>
+    unless @status == 'M'
+      @needsUpdate = true
+      @meetingMissed = true
   update: (delta) ->
     return if @dead
     changed = false
@@ -108,8 +113,13 @@ class Player
             changed = true
             @work -= 0.01
             @work = 0 if @work < 0
+        if @status == 'W'
+          if @health < 1
+            changed = true
+            @health += 0.05
+            @health = 1 if @health > 1
 
-      if @work <= 0 || @health <= 0
+      if @work <= 0 || @health <= 0 || @meetingMissed
         @dead = true
         changed = true
     ## End Server only
