@@ -1,6 +1,7 @@
 Player = require('./Player').Player
 Shot = require('./Shot').Shot
 cellsOverlapped = require('./Shot').cellsOverlapped
+doesIntersectCirle = require('./Shot').doesIntersectCirle
 
 COLORS = {
   X: '#000000'
@@ -172,6 +173,25 @@ class Survive
     @renderOffice()
     dx = @mousePos.x - @localPlayer.x * 10 + @offset
     dy = @mousePos.y - @localPlayer.y * 10
+    ### circle overlap test ###
+    center = {x: 10, y:10}
+    radius = 5
+
+    @context.beginPath()
+    @context.arc(center.x * 10, center.y * 10, radius * 10, 0, 2 * Math.PI, false)
+    if doesIntersectCirle(@localPlayer, {x:(@mousePos.x + @offset)/10, y:@mousePos.y /10}, center, radius)
+      @context.fillStyle = "#FF0000"
+    else
+      @context.fillStyle = "#00FF00"
+    @context.fill()
+
+    @context.beginPath()
+    @context.moveTo @localPlayer.x * 10, @localPlayer.y * 10
+    @context.lineTo @mousePos.x + @offset, @mousePos.y
+    @context.lineWidth = 1
+    @context.strokeStyle = "#000000"
+    @context.stroke()
+    ### ###
     if @localPlayer.setOrientation Math.atan2 dy, dx
       @socket.emit "orientation changed", @localPlayer.orientation
     @renderPlayer(@localPlayer)
