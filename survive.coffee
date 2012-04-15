@@ -1,5 +1,6 @@
 Player = require('./Player').Player
 Shot = require('./Shot').Shot
+cellsOverlapped = require('./Shot').cellsOverlapped
 
 COLORS = {
   X: '#000000'
@@ -171,6 +172,27 @@ class Survive
     @renderOffice()
     dx = @mousePos.x - @localPlayer.x * 10 + @offset
     dy = @mousePos.y - @localPlayer.y * 10
+    ### cellsOverlapped test ###
+    cells = cellsOverlapped @localPlayer.x, @localPlayer.y, (@mousePos.x + @offset) / 10, @mousePos.y / 10
+    texts = []
+    for cell in cells
+      @context.fillStyle = '#00FF00'
+      @context.fillRect 10 * cell.x, 10 * cell.y, 10, 10
+      @context.fillStyle = '#FF0000'
+      @context.fillRect 10 * (@localPlayer.x + cell.tx), 10 * (@localPlayer.y + cell.ty), 1, 1
+      texts = texts.concat ["x1:#{cell.x1}","y1:#{cell.y1}","x2:#{cell.x2}","y2:#{cell.y2}", "deltatx:#{cell.deltatx}", "deltaty:#{cell.deltaty}", "di:#{cell.di}", "dj:#{cell.dj}", "i:#{cell.i}", "iend:#{cell.iend}", "j:#{cell.j}", "jend:#{cell.jend}", "maxx:#{cell.maxx}", "maxy:#{cell.maxy}", "minx:#{cell.minx}", "miny:#{cell.miny}", "tx:#{cell.tx}", "ty:#{cell.ty}"]
+    @context.font = "12pt Arial"
+    texty = 10
+    for text in texts
+      @context.fillText text, 10 + @offset, texty
+      texty += 15
+    @context.beginPath()
+    @context.moveTo @localPlayer.x * 10, @localPlayer.y * 10
+    @context.lineTo @mousePos.x + @offset, @mousePos.y
+    @context.lineWidth = 1
+    @context.strokeStyle = "#000000"
+    @context.stroke()
+    ### ###
     if @localPlayer.setOrientation Math.atan2 dy, dx
       @socket.emit "orientation changed", @localPlayer.orientation
     @renderPlayer(@localPlayer)
