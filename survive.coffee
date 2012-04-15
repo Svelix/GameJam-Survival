@@ -69,6 +69,10 @@ class Survive
 
   @newShot: (data) =>
     @shots.push new Shot data
+  @hit: (data) =>
+    shot = @shotById(data.id)
+    shot?.hitPlayerId = data.hitPlayerId
+
 
   @removePlayer: (data) =>
     index = @players.indexOf @playerById data.id
@@ -113,6 +117,7 @@ class Survive
     @socket.on "start game", @startGame
     @socket.on "new player", @newPlayer
     @socket.on "new shot", @newShot
+    @socket.on "hit", @hit
     @socket.on "remove player", @removePlayer
     @socket.on "player moved", @playerMoved
 
@@ -122,6 +127,10 @@ class Survive
     else
       (@players.filter (player) ->
         player.id == id)[0]
+
+  @shotById = (id) ->
+    (@shots.filter (shot) ->
+      shot.id == id)[0]
 
   @playerMoved: (data) =>
     player = @playerById(data.id)
@@ -182,7 +191,7 @@ class Survive
     i = 0
     while i < @shots.length
       shot = @shots[i]
-      if shot.outdated()
+      if shot.outdated() || shot.hitPlayerId
         @shots.splice(i, 1)
       else
         @renderShot(shot)

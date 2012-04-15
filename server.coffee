@@ -110,7 +110,7 @@ onShoot = (data) ->
     dx = data.x - player.x
     dy = data.y - player.y
     direction = Math.atan2 dy, dx
-    shot = new Shot({x,y,direction})
+    shot = new Shot({x,y,direction, shooterId: player.id})
     shots.push shot
     socket.sockets.emit("new shot", shot.toData())
   else
@@ -130,7 +130,8 @@ gameLoop = ->
     if player.update(delta)
       socket.sockets.emit("player moved", player.toData())
   for shot in shots
-    shot.update(delta)
+    if shot.update(delta, players)
+      socket.sockets.emit("hit", shot.toData())
 
 
 startServer()

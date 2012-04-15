@@ -72,12 +72,15 @@ doesIntersectCirle = (p1,p2,sc,r) ->
   else
     return true
 
+currentId = 0
 class Shot
-  constructor: ({@x, @y, @direction}) ->
+  constructor: ({@x, @y, @direction, @id, @shooterId}) ->
+    @id = currentId++ unless @id
   speed: 20
   hit: false
-  toData: -> {@x, @y, @direction}
-  update: (delta) ->
+  hitPlayerId: null
+  toData: -> {@x, @y, @direction, @id, @hitPlayerId}
+  update: (delta, players = []) ->
     if !@hit
       [oldX, oldY] = [@x, @y]
       @x += delta * @speed * Math.cos @direction
@@ -88,6 +91,15 @@ class Shot
         if !(office[Math.floor(cell.y)][Math.floor(cell.x)] in WALKABLE)
           @hit = true
           @hitDate = Date.now()
+      for player in players
+        unless player.id == @shooterId
+          if doesIntersectCirle {x:oldX, y:oldY}, {@x, @y}, player, 1
+            @hit = true
+            @hitDate = Date.now()
+            @hitPlayerId = player.id
+            return true
+    false
+
   outdated: ->
     @hitDate && (@hitDate + 5000 < Date.now())
 
