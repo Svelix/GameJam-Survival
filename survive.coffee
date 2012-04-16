@@ -57,7 +57,7 @@ class Survive
     @office = require('./office').office
     @label = require('./office').label
     @refTime = Date.now()
-    @socket = io.connect("/", {port: 8080})
+    @socket = io.connect("/")
     @setupEventListener()
     @players = []
     @shots = []

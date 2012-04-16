@@ -7,6 +7,8 @@ Shot = require("./Shot").Shot
 Meeting = require("./Meeting").Meeting
 getStartPos = require('./office').getStartPos
 
+port = process.env.PORT || 8080
+
 refTime = null
 socket = null
 
@@ -17,9 +19,9 @@ startServer = ->
 
 initExpress = ->
   @app = express.createServer()
-  @app.listen(8080)
+  @app.listen(port)
 
-  bundle = require('browserify')(__dirname + '/survive.js', {watch: true, mount: '/all.js'})
+  bundle = require('browserify')(__dirname + '/survive.coffee', {mount: '/all.js'})
   @app.use(bundle)
 
   @app.get '/', (req, res) ->
@@ -28,6 +30,11 @@ initExpress = ->
 
 initSocketIO = ->
   socket = io.listen(@app)
+  ## Heroku only supports long-polling at the moment
+  if process.env.HEROKU
+    socket.configure () ->
+      socket.set "transports", ["xhr-polling"]
+      socket.set "polling duration", 10
   setupEventHandlers()
 
 setupEventHandlers = ->
