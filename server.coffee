@@ -76,7 +76,9 @@ onSocketConnection = (client) ->
   client.broadcast.emit "new player", player.toData()
   for otherPlayer in players
     client.emit "new player", otherPlayer.toData()
-    client.emit("new meeting", meeting.toData()) if meeting
+
+  client.emit("new meeting", meeting.toData()) if meeting
+
   for shot in shots
     client.emit "new shot", shot.toData()
 
